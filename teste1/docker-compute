@@ -1,0 +1,69 @@
+#!/bin/bash
+
+display_help() {
+   # Display Help
+   echo "======================================"
+   echo "   Docker run compute python script"
+   echo "======================================"
+   echo "Syntax: docker-compute [command]"
+   echo
+   echo "---commands---"
+   echo "help                   Print CLI help"
+   echo "build            Build SQLserver and python dependencies"
+   echo "create-sample            Create the sample from the example"
+   echo "get-profit            Calculate the profit with python and generate a .csv with the results to the user"
+   echo "validate-prereqs       Validate pre-reqs installed (docker, docker-compose)"  
+}
+
+validate_prereqs() {
+   docker -v >/dev/null 2>&1
+   if [ $? -ne 0 ]; then
+      echo -e "'docker' is not installed or not runnable without sudo. \xE2\x9D\x8C"
+   else
+      echo -e "Docker is Installed. \xE2\x9C\x94"
+   fi
+
+   docker-compose -v >/dev/null 2>&1
+   if [ $? -ne 0 ]; then
+      echo -e "'docker-compose' is not installed. \xE2\x9D\x8C"
+   else
+      echo -e "Docker compose is Installed. \xE2\x9C\x94"
+   fi
+}
+
+export_vars() {
+   export SQLSV_NAME="sqlserver"
+   export SLSV_USER="SA"
+   export SQLSV_PWD="Password01."
+}
+
+case "$1" in
+validate-prereqs)
+   validate_prereqs
+   ;;
+build)
+   export_vars
+   mkdir -p ./docker/sqlserver-data
+   sudo chgrp -R 0 ./docker/sqlserver-data
+   sudo chmod -R g=u ./docker/sqlserver-data
+   docker-compose up -d
+   ;;
+create-sample)
+   export_vars
+   sudo docker exec -it $SQLSV_NAME /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P $SQLSV_PWD -i create_sample.sql
+   ;;
+get-profit)
+   export_vars
+   sudo docker exec -it $SQLSV_NAME python3 compute_profit.py
+   sudo docker cp $SQLSV_NAME:scripts/results.csv ./results.csv
+   sudo docker exec -it $SQLSV_NAME rm results.csv
+   sudo chmod a+rwx ./results.csv
+   ;;
+help)
+   display_help
+   ;;
+*)
+   echo "No command specified, displaying help"
+   display_help
+   ;;
+esac
