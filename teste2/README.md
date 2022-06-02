@@ -1,5 +1,5 @@
 # Funcionamento
-Bash script que instancia um container com ambiente GLUE, através de uma imagem providenciada pelo AWS em seu DockerHub.
+O Bash script "docker-aws-glue" instancia um container com ambiente GLUE, através de uma imagem providenciada pelo AWS em seu DockerHub.
 
 A ambiente GLUE contém os seguintes notebooks:
 - total_liquido_auto_generated
@@ -27,6 +27,7 @@ Rode os seguintes comandos:
 Abra uma página com o seguinte endereço: ```localhost:8888```
 
 Escolha o notebook desejado e rode o código.
+No notebook que utiliza a conexão com o S3, deve ser alterado o caminho do S3 para um bucket em que sua credencial registrada no CLI da AWS tenha acesso. Neste bucket deve conter o documento JSON contido na pasta docker-glue/data
 
 # Hipóteses e escolha de arquitetura
 Levou-se em conta que os arquivos JSON seguem o mesmo padrão de estrutura, vindo contido em uma lista de dicionários com registros. Também foi admitido que os valores NA nos campos de desconto podem ser interpretados como 0.

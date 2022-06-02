@@ -1,5 +1,5 @@
 # Funcionamento
-O arquivo deserializer.py implementar uma classe com métodos para deserializar documentos JSON e converter os mesmos em dois dataframes separados, conforme o pedido no teste.
+O arquivo deserializer.py implementa uma classe com métodos para deserializar documentos JSON e converter os mesmos em dois dataframes separados, conforme o pedido no teste.
 
 A notebook transform_NFe carrega a classe do deserializer e possibilita o usuário escolher uma pasta que tem os documentos JSON que serão transformados em dataframes.
 

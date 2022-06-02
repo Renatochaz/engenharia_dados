@@ -1,5 +1,5 @@
 # Funcionamento
-Bash script que instancia um ambiente com SQLserver, cria a amostra necessária no banco de dados e providencia um ambiente python com as dependências necessárias para rodar o script que calcula o lucro total da empresa.
+O Bash script "docker-compute" instancia um ambiente com SQLserver, cria a amostra necessária no banco de dados e providencia um ambiente python com as dependências necessárias para rodar o script que calcula o lucro total da empresa.
 
 - O comando build instancia a imagem que cria todo o ambiente.
 - O comando create-sample utiliza o ```sqlcmd``` do SQLserver dentro do container para rodar a query que cria a amostra.
